@@ -1,7 +1,3 @@
-<script setup>
-
-</script>
-
 <template>
   <div class="main-container">
     <div class="container-text">
@@ -13,11 +9,17 @@
           Drop your file here
         </p>
         <div class="container-component-input">
-          <input type="file" placeholder="Select your file" />
-          <button type="button">
+          <input type="text" placeholder="Enter your text" class="inputText" v-model="textInput" />
+          <!-- <input type="file" placeholder="Select your file" @change="handleFileChange" /> -->
+          <button type="button" @click="fetchQuery">
             Upload
           </button>
         </div>
+
+        <p v-if="loader === true">
+          Loading...
+        </p>
+        <img v-else :src="img" v-if="img" class="imgIA" />
       </div>
     </div>
 
@@ -27,6 +29,73 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref } from "vue";
+import { client } from "@gradio/client";
+
+const textInput = ref('');
+const file = ref(null);
+const img = ref(null);
+const loader = ref(false);
+
+const handleFileChange = (event) => {
+  const fileInput = event.target;
+  const selectedFile = fileInput.files[0];
+
+  if (selectedFile && selectedFile instanceof File) {
+    file.value = selectedFile;
+  } else {
+    console.log("oui");
+    console.error('Aucun fichier sélectionné ou le fichier sélectionné n\'est pas un objet File valide.');
+    file.value = null;
+  }
+};
+
+const run = async () => {
+  console.log('Contenu de file avant la vérification :', file);
+
+  try {
+    const app = await client("https://seungheondoh-lp-music-caps-demo.hf.space/");
+    app.config.dev_mode = true;
+    // app.config.enable_queue = false;
+
+    console.log("APP", app);
+    const promise = Promise.all(await app.predict("/predict", [file.value]))
+    console.log("PROMISE", promise);
+    const result = promise;
+
+    console.log("Résultat:", result?.data);
+  } catch (error) {
+    console.error('Une erreur est survenue lors de l\'envoi du fichier:', error);
+  }
+};
+
+const query = async (data) => {
+  loader.value = true;
+  const response = await fetch(
+    "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0",
+    {
+      headers: { Authorization: "Bearer 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" },
+      method: "POST",
+      body: JSON.stringify(data),
+    }
+  );
+  console.log(response);
+  const result = await response.blob();
+  return result;
+}
+
+const fetchQuery = async () => {
+  query({ "inputs": textInput.value }).then(async (response) => {
+    const url = URL.createObjectURL(response)
+    img.value = url;
+    console.log("url", url);
+    loader.value = false;
+  });
+}
+
+</script>
 
 <style scoped>
 .main-container {
@@ -45,6 +114,16 @@
 
 .container-text h1 {
   text-align: center;
+}
+
+.imgIA {
+  width: 50%;
+  height: auto;
+}
+
+.inputText {
+  width: 70%;
+  border: 0;
 }
 
 .container-input {
