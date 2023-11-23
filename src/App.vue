@@ -75,6 +75,8 @@ const query = async (data) => {
   loader.value = true;
   const response = await fetch(
     "https://api-inference.huggingface.co/models/stabilityai/stable-diffusion-xl-base-1.0",
+
+    // faire son propre bearer sur https://huggingface.co/settings/tokens => bearer de test
     {
       headers: { Authorization: "Bearer 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" },
       method: "POST",

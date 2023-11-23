@@ -1,7 +1,30 @@
-# Vue 3 + Vite
+# ArtMonie
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Un projet front-end créé avec [Vite](https://vitejs.dev/) dans le cadre du cours de Usage des IA.
 
-## Recommended IDE Setup
+## Aperçu 🕶️
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+Ce projet est un projet qui intègre un usage de l'IA pour des utilisateurs. Les utilisateurs peuvent mettre en prompt un texte qui décrit les ambiances et les paroles d'une musique afin d'avoir une image en lien avec cette musique.
+Ce projet à été créer de toute part en 1 jour et demi.
+
+## Installation 🗂️
+
+1. Clonez ce dépôt vers votre machine locale :
+
+```bash
+git clone https://github.com/Lucas-Huerta/fronttooling.git
+
+cd nom-du-projet
+
+npm install
+# ou
+yarn
+
+npm install
+# ou
+yarn
+
+npm run build
+# ou
+yarn build
+```
