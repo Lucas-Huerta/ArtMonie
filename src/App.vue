@@ -105,6 +105,7 @@ const fetchQuery = async () => {
   justify-content: center;
   height: 100vh;
   width: 100vw;
+  overflow-y: hidden;
 }
 
 .container-text {
